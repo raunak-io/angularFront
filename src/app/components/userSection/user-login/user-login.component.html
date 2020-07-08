@@ -1,0 +1,50 @@
+<mat-card>
+  <form [formGroup]="loginForm" (ngSubmit)="loginData()">
+    <mat-form-field
+      ><mat-label>Email</mat-label>
+      <input
+        matInput
+        formControlName="email"
+        placeholder="email@example.com"
+        required
+      />
+      <mat-error *ngIf="email.touched && email.invalid"
+        >please enter your email address</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+
+      <input
+        [type]="hide ? 'password' : 'text'"
+        matInput
+        formControlName="password"
+        placeholder="********"
+        required
+      />
+      <button
+        mat-icon-button
+        matSuffix
+        (click)="hide = !hide"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide"
+      >
+        <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+      </button>
+      <mat-error *ngIf="password.touched && password.invalid"
+        >Please enter your password</mat-error
+      >
+    </mat-form-field>
+    <button mat-raised-button color="accent" *ngIf="!isLoading">login</button>
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
+  </form>
+  <hr />
+  <ul>
+    <li>
+      <a routerLink="/user-forgot-password" routerLinkActive="accent">
+        forgot password?</a
+      >
+    </li>
+    <li><a routerLink="/user-signup"> signUp</a></li>
+  </ul>
+</mat-card>

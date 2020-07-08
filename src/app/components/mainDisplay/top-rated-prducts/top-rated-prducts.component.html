@@ -1,0 +1,18 @@
+<div *ngIf="topRated.length > 0 && !isLoading">
+  <mat-card *ngFor="let topItem of topRated">
+    <img mat-card-md-image [src]="topItem.image" />
+    <mat-card-title>{{ topItem.name }}</mat-card-title>
+    <mat-card-subtitle>{{ topItem.companyName }}</mat-card-subtitle>
+    <mat-card-subtitle>{{ topItem.price }}</mat-card-subtitle>
+    <mat-card-footer
+      ><button mat-raised-button [routerLink]="['/product', topItem.id]">
+        See Product
+      </button></mat-card-footer
+    >
+  </mat-card>
+</div>
+
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<p class="info-text mat-body-1" *ngIf="topRated.length <= 0 && !isLoading">
+  NO PRODUCTS YET TO DISPLAY
+</p>

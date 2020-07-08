@@ -1,0 +1,10 @@
+<mat-card>
+  <img mat-card-md-image [src]="oneProduct.image" />
+
+  <mat-card-title>{{ oneProduct.name }}</mat-card-title>
+  <mat-card-subtitle>{{ oneProduct.companyName }}</mat-card-subtitle>
+  <mat-card-subtitle>{{ oneProduct.description }}</mat-card-subtitle>
+  <mat-card-footer
+    ><button mat-raised-button>{{ oneProduct.price }}</button></mat-card-footer
+  >
+</mat-card>

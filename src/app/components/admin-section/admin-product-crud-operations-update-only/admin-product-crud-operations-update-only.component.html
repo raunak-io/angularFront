@@ -1,0 +1,65 @@
+<mat-card>
+  <span> product update section</span>
+
+  <form [formGroup]="productUpdation" (ngSubmit)="updateProdData()">
+    <div>
+      <button mat-stroked-button type="button" (click)="filepicker.click()">
+        UPDATE IMAGE
+      </button>
+      <input type="file" #filepicker (change)="pickImage($event)" />
+    </div>
+    <div
+      class="image-preview"
+      *ngIf="
+        imagePreview !== '' &&
+        imagePreview &&
+        productUpdation.get('image').valid
+      "
+    >
+      <img [src]="imagePreview" />
+    </div>
+
+    <mat-form-field>
+      <input
+        matInput
+        formControlName="name"
+        type="text"
+        placeholder="product name here...."
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        formControlName="companyName"
+        type="text"
+        placeholder="product company name here..."
+      />
+    </mat-form-field>
+
+    <mat-form-field
+      ><input
+        matInput
+        formControlName="productType"
+        type="text"
+        placeholder="product type here..."
+    /></mat-form-field>
+    <mat-form-field
+      ><input
+        matInput
+        formControlName="price"
+        type="text"
+        placeholder="product price here..."
+    /></mat-form-field>
+    <mat-form-field
+      ><input
+        matInput
+        formControlName="description"
+        type="text"
+        placeholder="product description here..."
+    /></mat-form-field>
+
+    <button mat-raised-button type="submit" color="accent">
+      UPDATE PRODUCT
+    </button>
+  </form>
+</mat-card>

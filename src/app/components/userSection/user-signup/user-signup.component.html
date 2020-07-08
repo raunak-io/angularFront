@@ -1,0 +1,85 @@
+<mat-card>
+  <span>Register With Us</span>
+
+  <form [formGroup]="signUpForm" (ngSubmit)="signUpData()">
+    <div>
+      <button mat-stroked-button type="button" (click)="filepicker.click()">
+        IMAGE
+      </button>
+      <input type="file" #filepicker (change)="pickImage($event)" />
+    </div>
+    <div
+      class="image-preview"
+      *ngIf="
+        imagePreview !== '' && imagePreview && signUpForm.get('image').valid
+      "
+    >
+      <img [src]="imagePreview" />
+    </div>
+
+    <mat-form-field
+      ><mat-label>name</mat-label>
+      <input
+        matInput
+        formControlName="name"
+        placeholder="first name ,last name"
+        required
+      />
+      <mat-error *ngIf="name.touched && name.invalid"
+        >Please enter your name</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field
+      ><mat-label>Email</mat-label>
+      <input
+        matInput
+        formControlName="email"
+        placeholder="email@example.com"
+        required
+      />
+      <mat-error *ngIf="email.touched && email.invalid"
+        >Please enter your email address</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+
+      <input
+        [type]="hide ? 'password' : 'text'"
+        matInput
+        formControlName="password"
+        placeholder="********"
+        required
+      />
+      <button
+        mat-icon-button
+        matSuffix
+        (click)="hide = !hide"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide"
+      >
+        <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+      </button>
+      <mat-error *ngIf="password.touched && password.invalid"
+        >Please enter a password</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>confirm Password</mat-label>
+
+      <input
+        [type]="hide ? 'password' : 'text'"
+        matInput
+        formControlName="confirmPassword"
+        placeholder="confirm password"
+        required
+      />
+
+      <mat-error *ngIf="confirmPassword.touched && confirmPassword.invalid"
+        >Please confirm your password</mat-error
+      >
+    </mat-form-field>
+    <button mat-raised-button color="accent" *ngIf="!isLoading">singUp</button>
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
+  </form>
+</mat-card>

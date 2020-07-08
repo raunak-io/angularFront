@@ -1,0 +1,26 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <button mat-button routerLink="/">Home</button>
+    <button mat-button routerLink="/products">Products</button>
+    <button mat-button [matMenuTriggerFor]="Admin" *ngIf="userIsAuthenticated">
+      Admin Portal
+    </button>
+    <mat-menu #Admin>
+      <button mat-menu-item routerLink="admin-panel">
+        Admin Panel
+      </button>
+      <button mat-menu-item routerLink="admin-product-crud-operations">
+        Create Product
+      </button>
+      <button
+        mat-menu-item
+        routerLink="admin-product-crud-operations-update-only"
+      >
+        Update Product
+      </button>
+    </mat-menu>
+    <button mat-button routerLink="/user-portal" *ngIf="userIsAuthenticated">
+      My Profile
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>

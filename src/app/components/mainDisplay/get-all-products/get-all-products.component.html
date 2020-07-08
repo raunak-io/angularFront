@@ -1,0 +1,27 @@
+<div *ngIf="products.length > 0 && !isLoading">
+  <mat-card *ngFor="let product of products">
+    <img
+      mat-card-md-image
+      [src]="product.image"
+      [routerLink]="['/product', product.id]"
+    />
+    <mat-card-title>{{ product.name }}</mat-card-title>
+    <mat-card-subtitle>{{ product.companyName }}</mat-card-subtitle>
+    <mat-card-subtitle>{{ product.description }}</mat-card-subtitle>
+    <mat-card-footer
+      ><button mat-raised-button [routerLink]="['/product', product.id]">
+        {{ product.price }}
+      </button></mat-card-footer
+    >
+  </mat-card>
+
+  <!-- <mat-paginator
+    [length]="100"
+    [pageSize]="10"
+    [pageSizeOptions]="[5, 10, 25, 100]"
+  ></mat-paginator> -->
+</div>
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<p class="info-text mat-body-1" *ngIf="products.length <= 0 && !isLoading">
+  NO PRODUCTS YET TO DISPLAY
+</p>

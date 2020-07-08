@@ -1,0 +1,7 @@
+mat-card {
+  width: 30%;
+
+  display: inline-block;
+  overflow: hidden;
+  margin: 3%;
+}

@@ -1,0 +1,105 @@
+<span class="info-text mat-body-1"> product management section</span>
+<mat-card>
+  <!-- <mat-spinner *ngIf="isLoading"></mat-spinner> -->
+  <form [formGroup]="createProduct" (ngSubmit)="createCard()">
+    <div>
+      <button mat-stroked-button type="button" (click)="filepicker.click()">
+        IMAGE
+      </button>
+      <input type="file" #filepicker (change)="pickImage($event)" />
+    </div>
+    <div
+      class="image-preview"
+      *ngIf="
+        imagePreview !== '' && imagePreview && createProduct.get('image').valid
+      "
+    >
+      <img [src]="imagePreview" />
+    </div>
+
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        formControlName="name"
+        placeholder=" product name here...."
+        required
+      />
+
+      <mat-error *ngIf="createProduct.get('name').invalid"
+        >Please enter Product Name</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        formControlName="companyName"
+        placeholder="product company name here..."
+        required
+      />
+      <mat-error *ngIf="createProduct.get('companyName').invalid"
+        >Please enter Product Company Name
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        formControlName="productType"
+        placeholder="product type here..."
+        required
+      />
+      <mat-error *ngIf="createProduct.get('productType').invalid"
+        >Please enter Product Category</mat-error
+      >
+    </mat-form-field>
+
+    <mat-form-field
+      ><input
+        matInput
+        type="text"
+        formControlName="price"
+        placeholder="product price here..."
+        required
+      />
+      <mat-error *ngIf="createProduct.get('price').invalid"
+        >Please enter Product Price
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field
+      ><input
+        matInput
+        type="text"
+        formControlName="description"
+        placeholder="product description here..."
+        required
+      />
+      <mat-error *ngIf="createProduct.get('description').invalid"
+        >Please enter Product's Description
+      </mat-error>
+    </mat-form-field>
+
+    <button mat-raised-button color="accent" type="submit">
+      Create
+    </button>
+  </form>
+</mat-card>
+
+<mat-card>
+  <!-- <mat-spinner *ngIf="isLoading"></mat-spinner> -->
+  <span class="info-text mat-body-1">delete products here</span>
+  <div *ngIf="product.length > 0">
+    <ul *ngFor="let prod of product">
+      <li class="info-text mat-body-1">
+        {{ prod.name }} {{ prod.productType }}
+        <button (click)="onDeleteProd(prod.id, prod.name)">delete</button>
+      </li>
+    </ul>
+  </div>
+  <span class="info-text mat-body-1" *ngIf="product.length <= 0"
+    >No Products Yet to Display</span
+  >
+</mat-card>
