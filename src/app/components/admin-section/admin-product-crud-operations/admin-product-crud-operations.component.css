@@ -5,7 +5,8 @@ mat-form-field {
   width: 100%;
 }
 mat-card {
-  width: 100%;
+  width: 60%;
+  margin: 10% auto;
 }
 .image-preview {
   height: 5rem;
@@ -21,4 +22,7 @@ ul {
 }
 li {
   color: white;
+}
+span {
+  text-align: center;
 }

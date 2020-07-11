@@ -45,7 +45,7 @@ export class UserLoginComponent implements OnInit, OnDestroy {
     );
 
     console.log(this.loginForm.value);
-    this.loginForm.reset();
+    //this.loginForm.reset();
   }
 
   ngOnDestroy() {

@@ -4,5 +4,6 @@ export interface Product {
   companyName?: string;
   productType?: string;
   price?: string;
+  priceDiscount?: string;
   description?: string;
 }

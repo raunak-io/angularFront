@@ -1,3 +1,4 @@
+import { AuthService } from './auth.service';
 import { Product } from './../models/product-models/product.model';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -13,9 +14,11 @@ export class ProductsService {
   private productsUpdated = new Subject<Product[]>();
 
   constructor(private http: HttpClient) {}
+  // token = this.authService.getToken();
   // httpOptions = {
-  //   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+  //   headers: new HttpHeaders({ authorization: this.token }),
   // };
+
   getAllProducts(): Observable<any> {
     return this.http.get<any>(this.productUrl);
   }
@@ -29,7 +32,8 @@ export class ProductsService {
     companyName: string,
     productType: string,
     price: string,
-    description: string
+    description: string,
+    priceDiscount?: string
   ) {
     const productCard = new FormData();
     productCard.append('name', name);
@@ -37,6 +41,7 @@ export class ProductsService {
     productCard.append('companyName', companyName);
     productCard.append('productType', productType);
     productCard.append('price', price);
+    productCard.append('priceDiscount', priceDiscount);
     productCard.append('description', description);
     this.http
       .post<{ product: Product }>(
@@ -51,6 +56,7 @@ export class ProductsService {
           companyName: companyName,
           productType: productType,
           price: price,
+          priceDiscount: priceDiscount,
           description: description,
         };
         this.products.push(product);
@@ -64,6 +70,7 @@ export class ProductsService {
     companyName?: string,
     productType?: string,
     price?: string,
+    priceDiscount?: string,
     description?: string
   ) {
     let updateProduct = {
@@ -72,6 +79,7 @@ export class ProductsService {
       companyName: companyName,
       productType: productType,
       price: price,
+      priceDiscount: priceDiscount,
       description: description,
     };
 

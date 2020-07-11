@@ -18,6 +18,7 @@ export class AdminProductCrudOperationsUpdateOnlyComponent implements OnInit {
     companyName: new FormControl('', Validators.required),
     productType: new FormControl('', Validators.required),
     price: new FormControl('', Validators.required),
+    priceDiscount: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
   });
 
@@ -42,6 +43,7 @@ export class AdminProductCrudOperationsUpdateOnlyComponent implements OnInit {
       this.productUpdation.value.companyName,
       this.productUpdation.value.productType,
       this.productUpdation.value.price,
+      this.productUpdation.value.priceDiscount,
       this.productUpdation.value.description
     );
 

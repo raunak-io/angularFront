@@ -1,16 +1,22 @@
 <div *ngIf="products.length > 0 && !isLoading">
   <mat-card *ngFor="let product of products">
     <img
-      mat-card-md-image
+      *ngIf="product.image"
       [src]="product.image"
       [routerLink]="['/product', product.id]"
     />
     <mat-card-title>{{ product.name }}</mat-card-title>
     <mat-card-subtitle>{{ product.companyName }}</mat-card-subtitle>
     <mat-card-subtitle>{{ product.description }}</mat-card-subtitle>
+    <span> {{ product.price }}</span
+    ><span class="mat-body-1"> discount price</span>
     <mat-card-footer
-      ><button mat-raised-button [routerLink]="['/product', product.id]">
-        {{ product.price }}
+      ><button
+        mat-raised-button
+        color="accent"
+        [routerLink]="['/product', product.id]"
+      >
+        SEE PRODUCT
       </button></mat-card-footer
     >
   </mat-card>

@@ -11,13 +11,12 @@ import { Component, OnInit } from '@angular/core';
 export class AdminProductCrudOperationsComponent implements OnInit {
   constructor(private service: ProductsService) {}
   imagePreview: string;
-  
+
   product = [];
   ngOnInit() {
     this.service.getAllProducts().subscribe((comingProd) => {
-     
       let products = comingProd.data['data'];
-     
+
       this.product = products;
     });
   }
@@ -33,6 +32,7 @@ export class AdminProductCrudOperationsComponent implements OnInit {
     companyName: new FormControl('', Validators.required),
     productType: new FormControl('', Validators.required),
     price: new FormControl('', Validators.required),
+    priceDiscount: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
   });
 
@@ -50,7 +50,7 @@ export class AdminProductCrudOperationsComponent implements OnInit {
 
   createCard() {
     console.log(this.createProduct.value);
-    
+
     if (this.createProduct.invalid) {
       return;
     }
@@ -60,9 +60,10 @@ export class AdminProductCrudOperationsComponent implements OnInit {
       this.createProduct.value.companyName,
       this.createProduct.value.productType,
       this.createProduct.value.price,
+      this.createProduct.value.priceDiscount,
       this.createProduct.value.description
     );
-    
+
     this.createProduct.reset();
   }
 }

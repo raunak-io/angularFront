@@ -2,7 +2,8 @@
   <mat-toolbar-row>
     <button mat-button routerLink="/">Home</button>
     <button mat-button routerLink="/products">Products</button>
-    <button mat-button [matMenuTriggerFor]="Admin" *ngIf="userIsAuthenticated">
+    <button mat-button [matMenuTriggerFor]="Admin">
+      <!-- *ngIf="userIsAuthenticated" -->
       Admin Portal
     </button>
     <mat-menu #Admin>
@@ -19,7 +20,8 @@
         Update Product
       </button>
     </mat-menu>
-    <button mat-button routerLink="/user-portal" *ngIf="userIsAuthenticated">
+    <button mat-button routerLink="/user-portal">
+      <!-- *ngIf="userIsAuthenticated" -->
       My Profile
     </button>
   </mat-toolbar-row>

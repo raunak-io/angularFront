@@ -74,10 +74,22 @@
         matInput
         type="text"
         formControlName="description"
-        placeholder="product description here..."
+        placeholder="product price discount  here..."
         required
       />
       <mat-error *ngIf="createProduct.get('description').invalid"
+        >Please enter Product Price Discount if any
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field
+      ><input
+        matInput
+        type="text"
+        formControlName="priceDiscount"
+        placeholder=" product description here..."
+      />
+      <mat-error *ngIf="createProduct.get('priceDiscount').invalid"
         >Please enter Product's Description
       </mat-error>
     </mat-form-field>

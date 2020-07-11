@@ -1,10 +1,29 @@
 <mat-card>
-  <img mat-card-md-image [src]="oneProduct.image" />
+  <img *ngIf="oneProduct.image" [src]="oneProduct.image" />
 
   <mat-card-title>{{ oneProduct.name }}</mat-card-title>
   <mat-card-subtitle>{{ oneProduct.companyName }}</mat-card-subtitle>
+  <span>{{ oneProduct.price }}</span> <span>discount price</span>
   <mat-card-subtitle>{{ oneProduct.description }}</mat-card-subtitle>
-  <mat-card-footer
-    ><button mat-raised-button>{{ oneProduct.price }}</button></mat-card-footer
+  <mat-card-footer>
+    <span>
+      average rating
+    </span>
+    <span>
+      number of rating
+    </span>
+
+    <button mat-raised-button>{{ oneProduct.price }}</button></mat-card-footer
   >
 </mat-card>
+
+<div class="container">
+  <div class="box">
+    <div class="content">
+      <img src="" class="quote" />
+      <p>some review text</p>
+      <img src="" class="user" />
+      <h3>customer name</h3>
+    </div>
+  </div>
+</div>

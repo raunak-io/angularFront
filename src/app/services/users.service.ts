@@ -1,3 +1,4 @@
+import { AuthService } from './auth.service';
 import { UserUpdateMe } from './../models/user-models/user-updateme.model';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -8,16 +9,17 @@ import { Observable } from 'rxjs';
 })
 export class UsersService {
   private usersUrl = 'http://localhost:3000/api/v1/users';
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
+  // token = this.authService.getToken();
   // httpOptions = {
-  //   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+  //   headers: new HttpHeaders({ authorization: this.token }),
   // };
   getAllUsers(): Observable<any> {
-    return this.http.get<any>(this.usersUrl);
+    return this.http.get<any>(this.usersUrl); // this.httpOptions
   }
 
   getUserById(userId): Observable<any> {
-    return this.http.get<any>(this.usersUrl + '/' + userId);
+    return this.http.get<any>(this.usersUrl + '/' + userId); //
   }
   deleteUser(userId) {
     this.http

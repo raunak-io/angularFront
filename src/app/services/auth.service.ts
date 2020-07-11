@@ -14,12 +14,13 @@ import { Router } from '@angular/router';
 export class AuthService {
   private authUrl = 'http://localhost:3000/api/v1/users';
   private token: string;
+  private tokenTimer: any;
   private role;
   private authStatusListener = new Subject<boolean>();
   private isAuthenticated = false;
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-  };
+  // httpOptions = {
+  //   headers: new HttpHeaders({ 'authorization':this.token }),
+  // };
   constructor(private http: HttpClient, private router: Router) {}
 
   getToken() {
@@ -68,37 +69,67 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
-    const userLoginData = new FormData();
-    userLoginData.append('email', email),
-      userLoginData.append('password', password),
-      this.http
-        .post<any>(this.authUrl + '/login', userLoginData, this.httpOptions)
-        .subscribe(
-          (userLog) => {
-            console.log(userLog);
-            const token = userLog.token;
-            const role = userLog.data['user']['role'];
+    const data = {
+      email: email,
+      password: password,
+    };
+    if (!data) {
+      return;
+    }
+    console.log(data);
+    // const userLoginData = new FormData();
+    // userLoginData.append('email', email),
+    //   userLoginData.append('password', password),
+    this.http
+      .post<any>(this.authUrl + '/login', data) //userLoginData  this.httpOptions
 
-            this.role = role;
-            console.log(this.role);
-            this.token = token;
-            console.log(userLog);
-            console.log(this.token);
-            if (token) {
-              this.isAuthenticated = true;
-              this.authStatusListener.next(true);
-              this.saveAuthData(token);
-              this.router.navigate(['/']);
-            }
-          },
-          (error) => {
-            this.authStatusListener.next(false);
+      .subscribe(
+        (userLog) => {
+          console.log(userLog);
+          const token = userLog.token;
+
+          const role = userLog.data['user']['role'];
+
+          this.role = role;
+          console.log(this.role);
+          this.token = token;
+
+          console.log(this.token);
+          if (token) {
+            console.log(token);
+            const expiresInToken = userLog.tokenExpiresIn;
+            this.setAuthTimer(expiresInToken);
+            this.isAuthenticated = true;
+            this.authStatusListener.next(true);
+            const now = new Date();
+            const expirationDate = new Date(
+              now.getTime() + expiresInToken * 1000
+            );
+            console.log(expirationDate);
+            this.saveAuthData(token, expirationDate);
+            this.router.navigate(['/']);
           }
-        );
+        },
+        (error) => {
+          this.authStatusListener.next(false);
+        }
+      );
   }
 
   autoAuthUser() {
     const autoAuthInformation = this.getAutoAuth();
+    if (!autoAuthInformation) {
+      return;
+    }
+    const now = new Date();
+    const expiresIn =
+      autoAuthInformation.expirationDate.getTime() - now.getTime();
+    if (expiresIn > 0) {
+      this.token = autoAuthInformation.token;
+      this.isAuthenticated = true;
+      this.setAuthTimer(expiresIn / 1000);
+      this.authStatusListener.next(true);
+    }
   }
 
   logout() {
@@ -107,6 +138,7 @@ export class AuthService {
     this.authStatusListener.next(false);
     this.clearAuthData();
     this.router.navigate(['/']);
+    clearTimeout(this.tokenTimer);
   }
 
   forgotPassword(email: string) {
@@ -116,8 +148,8 @@ export class AuthService {
     this.http
       .post<{ forgotPass: ForgetPassword }>(
         this.authUrl + '/forgotPassword',
-        userLoggedIn,
-        this.httpOptions
+        userLoggedIn
+        // this.httpOptions
       )
       .subscribe((userLOGIN) => {
         console.log(userLOGIN);
@@ -132,8 +164,8 @@ export class AuthService {
     this.http
       .patch<{ resetPassData: ResetPassword }>(
         this.authUrl + '/resetPassword' + '/' + userId,
-        resetData,
-        this.httpOptions
+        resetData
+        // this.httpOptions
       )
       .subscribe((resetDataa) => {
         console.log(resetDataa);
@@ -153,28 +185,39 @@ export class AuthService {
     this.http
       .patch<{ updatePassword: UserChangePassword }>(
         this.authUrl + '/updateMyPassword',
-        updatePasswordData,
-        this.httpOptions
+        updatePasswordData
+        // this.httpOptions
       )
       .subscribe((updatedPassData) => {
         console.log(updatedPassData);
       });
   }
 
-  private saveAuthData(token: string) {
+  private setAuthTimer(duration: number) {
+    console.log('setting timer: ' + duration);
+    this.tokenTimer = setTimeout(() => {
+      this.logout();
+    }, duration * 1000);
+  }
+
+  private saveAuthData(token: string, expirationDate: Date) {
     localStorage.setItem('token', token);
+    localStorage.setItem('expiration', expirationDate.toISOString());
   }
   private clearAuthData() {
     localStorage.removeItem('token');
+    localStorage.removeItem('expiration');
   }
 
   private getAutoAuth() {
     const token = localStorage.getItem('token');
-    if (!token) {
+    const expirationDate = localStorage.getItem('expiration');
+    if (!token || !expirationDate) {
       return;
     }
     return {
       token: token,
+      expirationDate: new Date(expirationDate),
     };
   }
 }
